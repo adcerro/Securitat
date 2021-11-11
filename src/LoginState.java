@@ -1,0 +1,7 @@
+public enum LoginState {
+    EXITOSO,
+    PROBLEMA_HUELLA,
+    PROBLEMA_PASSWORD,
+    NO_PASSWORD,
+    EXTRA_PASSWORD,
+}
