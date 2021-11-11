@@ -12,4 +12,7 @@ public class Persona {
     public void setNum(int n){
         contPer = n;
     }
+    public String getName(){
+        return nombre;
+    }
 }

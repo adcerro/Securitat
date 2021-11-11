@@ -132,15 +132,23 @@ securitat.calcMayorProblemaEntreAdministradores(LoginState.NO_PASSWORD);
        Login  l =new Login(d, p, h, pass);
        if(l.isValid()){
            logs.add(l);
+           System.out.println("Login de "+p.getName()+" exitoso!");
+       }else{
+        System.out.println("Login de "+p.getName()+" no exitoso -"+l.state());
        }
     }
     public void addLogin(LocalDateTime d, Persona p, Huella h){
         Login  l =new Login(d, p, h);
        if(l.isValid()){
            logs.add(l);
+           System.out.println("Login de "+p.getName()+" exitoso!");
+       }else{
+            System.out.println("Login de "+p.getName()+" no exitoso -"+l.state());
        }
     }
     public void calcMayorProblemaEntreAdministradores(LoginState log){
+        for(Login l: logs){
 
+        }
     }
 }

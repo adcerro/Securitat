@@ -12,7 +12,7 @@ public class Login{
         this.persona = p;
         if(p.getHuella().isEqualTo(h)){
             if(p instanceof Administrador ){
-                if(((Administrador)p).getPassword() != pass){
+                if(((Administrador)p).getPassword().equals(pass)){
                     this.valid = true;
                 }
                 else{
@@ -31,6 +31,10 @@ public class Login{
     Login(LocalDateTime d, Persona p,Huella h){
         this.date = d;
         this.persona = p;
+        if(p instanceof Administrador){
+            this.valid = false;
+            this.state = LoginState.NO_PASSWORD;
+        }else{
         if(p.getHuella().isEqualTo(h)){
             this.valid = true;
             this.state = LoginState.EXITOSO;
@@ -39,7 +43,11 @@ public class Login{
             this.state = LoginState.PROBLEMA_HUELLA;
         }
     }
+    }
     public boolean isValid(){
         return valid;
+    }
+    public LoginState state(){
+        return state;
     }
 }
