@@ -16,17 +16,24 @@ public class Huella {
     }
     public boolean isEqualTo(Huella h){
         boolean isEqual;
+        boolean match;
+        int iterator;
         if(h.getSenales().size() == this.getSenales().size()){
             isEqual = true;
             for(Senal s: senales){
-                System.out.println("initial "+isEqual);
-                System.out.println("compare "+h.getSenales().contains(s));
-                isEqual = isEqual && h.getSenales().contains(s);
+                match = false;
+                iterator =0;
+                while(iterator<h.getSenales().size()&& match==false){
+                    if(h.getSenales().get(iterator).matches(s)){
+                        match = true;
+                    }
+                    iterator = iterator +1;
+                }
+                isEqual = isEqual && match;
             }
         }else{
             isEqual = false;
         }
-        System.out.println("final "+isEqual);
         return isEqual;
     }
     public ArrayList<Senal> getSenales(){
