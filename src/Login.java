@@ -27,6 +27,7 @@ public class Login{
             this.valid = false;
             this.state = LoginState.PROBLEMA_HUELLA;
         }
+        p.getLogs().add(this);
     }
     Login(LocalDateTime d, Persona p,Huella h){
         this.date = d;
@@ -35,15 +36,17 @@ public class Login{
             this.valid = false;
             this.state = LoginState.NO_PASSWORD;
         }else{
-        if(p.getHuella().isEqualTo(h)){
-            this.valid = true;
-            this.state = LoginState.EXITOSO;
-        }else{
-            this.valid = false;
-            this.state = LoginState.PROBLEMA_HUELLA;
+            if(p.getHuella().isEqualTo(h)){
+                this.valid = true;
+                this.state = LoginState.EXITOSO;
+            }else{
+                this.valid = false;
+                this.state = LoginState.PROBLEMA_HUELLA;
+            }
         }
+        p.getLogs().add(this);
     }
-    }
+    
     public boolean isValid(){
         return valid;
     }

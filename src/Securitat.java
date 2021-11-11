@@ -3,6 +3,7 @@ import java.util.ArrayList;
 public class Securitat {
     private ArrayList<Persona> personas = new ArrayList<>();
     private ArrayList<Login> logs = new ArrayList<>();
+    private int number =1;
     public static void main(String[] args) throws Exception {
         Securitat securitat = new Securitat();
 
@@ -100,13 +101,17 @@ securitat.calcMayorProblemaEntreAdministradores(LoginState.NO_PASSWORD);
             }
         }
         if (unique == false){
-        System.out.println("Huella ya existe! Usuario "+n+" no fue creado");}
+            System.out.println("Huella ya existe! Usuario "+n+" no fue creado");
+        }
         else{
-        personas.add(new Persona(n, h));
-        System.out.println("Creacion exitosa! Usuario "+n);
+            Persona pe = new Persona(n, h);
+            pe.setNum(number);
+            number = number+1;
+            personas.add(pe);
+            System.out.println("Creacion exitosa! Usuario "+n);
+        }
     }
-        
-    }
+
     public void addAdministrador(String n, Huella h, String p){
         boolean uniqueA=true;
         for(Persona pe: personas){
@@ -117,7 +122,10 @@ securitat.calcMayorProblemaEntreAdministradores(LoginState.NO_PASSWORD);
         if (uniqueA == false){
             System.out.println("Huella ya existe! Administrador "+n+" no fue creado");
         }else{
-            personas.add(new Administrador(n, h, p));
+            Administrador ad = new Administrador(n, h, p);
+            ad.setNum(number);
+            number = number +1;
+            personas.add(ad);
             System.out.println("Creación exitosa! Administrador "+n);
         }
     }
@@ -131,24 +139,48 @@ securitat.calcMayorProblemaEntreAdministradores(LoginState.NO_PASSWORD);
     public void addLogin(LocalDateTime d, Persona p, Huella h, String pass){
        Login  l =new Login(d, p, h, pass);
        if(l.isValid()){
-           logs.add(l);
            System.out.println("Login de "+p.getName()+" exitoso!");
        }else{
         System.out.println("Login de "+p.getName()+" no exitoso -"+l.state());
        }
+       logs.add(l);
     }
     public void addLogin(LocalDateTime d, Persona p, Huella h){
         Login  l =new Login(d, p, h);
        if(l.isValid()){
-           logs.add(l);
            System.out.println("Login de "+p.getName()+" exitoso!");
        }else{
             System.out.println("Login de "+p.getName()+" no exitoso -"+l.state());
        }
+       logs.add(l);
     }
     public void calcMayorProblemaEntreAdministradores(LoginState log){
-        for(Login l: logs){
-
+        ArrayList<Administrador> admins = new ArrayList<>();
+        for(Persona p: personas){
+            if(p instanceof Administrador){
+                admins.add(((Administrador)p));
+            }
         }
+        Administrador mayor = admins.get(0);
+        int maxinvalidLogs = 0;
+        for(Login l: mayor.getLogs()){
+            if(!l.isValid()&&l.state().equals(log)){
+                maxinvalidLogs = maxinvalidLogs+1;
+            }
+        }
+        for(Administrador a: admins){
+            int invalidLogs = 0;
+                for(Login l1: a.getLogs()){
+                    if(!l1.isValid()&&l1.state().equals(log)){
+                        invalidLogs = invalidLogs+1;
+                    }
+                }
+            if(invalidLogs>maxinvalidLogs){
+                mayor =a;
+                maxinvalidLogs = invalidLogs;
+            }
+        }
+        System.out.println("El usuario con mas problemas "+log+" es "+mayor.getName()+" con "+maxinvalidLogs);
+        
     }
 }
